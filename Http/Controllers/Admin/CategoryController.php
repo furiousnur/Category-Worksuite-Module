@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Category\Http\Controllers;
+namespace Modules\Category\Http\Controllers\Admin;
 
 use App\Helper\Reply;
 use App\Http\Controllers\Admin\AdminBaseController;
@@ -18,7 +18,7 @@ class CategoryController extends AdminBaseController
     public function index(CategoryDataTable $dataTables)
     {
         $this->pageTitle = __('category::app.title');
-        return $dataTables->render('category::project.index', $this->data);
+        return $dataTables->render('category::admin.project.index', $this->data);
     }
 
     /**
@@ -45,7 +45,7 @@ class CategoryController extends AdminBaseController
            'category_name' => $request->category_name
         ]);
 
-        return redirect()->route('employee.category.index');
+        return redirect()->route('admin.category.index');
     }
 
     /**

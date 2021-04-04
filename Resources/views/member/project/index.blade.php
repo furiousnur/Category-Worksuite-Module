@@ -48,7 +48,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('employee.category.store')}}" class="form-group" method="post">
+                <form action="{{route('member.category.store')}}" class="form-group" method="post">
                     @csrf
                     <label for="exampleInputEmail1">@lang('category::app.projectName')</label>
                     <input type="text" class="form-control" name="category_name" placeholder="@lang('category::app.projectName')">
@@ -75,13 +75,7 @@
     });
 
     function editDevice(id){
-        url = '{{route('admin.devices.edit', ':id')}}';
-        url = url.replace(':id', id);
-        $.ajaxModal('#deviceModal', url);
-    }
-
-    function viewDevice(id){
-        url = '{{route('admin.devices.show', ':id')}}';
+        url = '{{route('member.category.edit', ':id')}}';
         url = url.replace(':id', id);
         $.ajaxModal('#deviceModal', url);
     }
@@ -99,7 +93,7 @@
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    var url = "{{ route('employee.category.destroy',':id') }}";
+                    var url = "{{ route('member.category.destroy',':id') }}";
                     url = url.replace(':id', id);
                     var token = "{{ csrf_token() }}";
                     $.easyAjax({
@@ -115,9 +109,5 @@
                 }
             });
         }
-
-        @if(request('device'))
-            $.ajaxModal('#deviceModal', '{{route('admin.devices.show', request('device'))}}');
-        @endif
 </script>
 @endpush
