@@ -3,25 +3,22 @@
 namespace Modules\Category\Http\Controllers\Member;
 
 use App\Helper\Reply;
-use App\Http\Controllers\Member\MemberBaseController;
-use App\ProjectCategory;
+use App\Http\Controllers\Admin\AdminBaseController;
+use App\TaskCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Category\DataTables\MemberCategoryDataTable;
+use Modules\Category\DataTables\MemberTaskCategoryDataTable;
 
-class MemberCategoryController extends MemberBaseController
+class MemberTaskCategoryController extends AdminBaseController
 {
     /**
      * Display a listing of the resource.
      * @return Response
      */
-    public function index(MemberCategoryDataTable $dataTables)
+    public function index(MemberTaskCategoryDataTable $dataTables)
     {
-        if(!user()->cans('view_category'))
-        return abort(403);
-
         $this->pageTitle = __('category::app.title');
-        return $dataTables->render('category::member.project.index', $this->data);
+        return $dataTables->render('category::member.task.index', $this->data);
     }
 
     /**
@@ -41,14 +38,14 @@ class MemberCategoryController extends MemberBaseController
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required|unique:project_category,category_name',
+            'category_name' => 'required|unique:task_category,category_name',
         ]);
 
-        ProjectCategory::create([
+        TaskCategory::create([
            'category_name' => $request->category_name
         ]);
 
-        return redirect()->route('member.category.index');
+        return redirect()->route('admin.task-category.index');
     }
 
     /**
@@ -89,7 +86,7 @@ class MemberCategoryController extends MemberBaseController
      */
     public function destroy($id)
     {
-        $this->device = ProjectCategory::find($id);
+        $this->device = TaskCategory::find($id);
         $this->device->delete();
         return Reply::success(__('category::app.message.deleted'));
 

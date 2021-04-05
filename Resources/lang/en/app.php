@@ -5,7 +5,11 @@ return array(
 
     // Common words translation
     'projectCategory' => 'Project Category',
+    'taskCategory' => 'Task Category',
+    'addTaskCategory' => 'Add Task Category',
+    'addProjectCategory' => 'Add Project Category',
     'projectName' => 'Project Category Name',
+    'taskName' => 'Task Category Name',
     'status' => 'Status',
     'ip' => 'Ip',
     'ip_label' => 'Ip of the Category',

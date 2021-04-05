@@ -1,4 +1,4 @@
-@extends('layouts.member-app')
+@extends('layouts.app')
 
 @section('page-title')
     <div class="row bg-title">
@@ -24,10 +24,10 @@
     <div class="row">
         <div class="col-md-12">
             <div class="white-box">
-                @include('category::layouts.member_sidebar')
+                @include('category::layouts.sidebar')
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addProjectCategoryModal">
-                    @lang('category::app.addProjectCategory')
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addTaskCategoryModal">
+                    @lang('category::app.addTaskCategory')
                 </button>
                 <div class="table-responsive m-t-5">
                     {!! $dataTable->table(['class' => 'table table-bordered table-hover toggle-circle default footable-loaded footable']) !!}
@@ -38,20 +38,20 @@
 @endsection
 
 <!-- Modal -->
-<div class="modal fade" id="addProjectCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addTaskCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">@lang('category::app.projectCategory')</h5>
+                <h5 class="modal-title" id="exampleModalLabel">@lang('category::app.taskCategory')</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('member.category.store')}}" class="form-group" method="post">
+                <form action="{{route('admin.task-category.store')}}" class="form-group" method="post">
                     @csrf
-                    <label for="exampleInputEmail1">@lang('category::app.projectName')</label>
-                    <input type="text" class="form-control" name="category_name" placeholder="@lang('category::app.projectName')">
+                    <label for="exampleInputEmail1">@lang('category::app.taskName')</label>
+                    <input type="text" class="form-control" name="category_name" placeholder="@lang('category::app.taskName')">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -75,7 +75,7 @@
     });
 
     function editDevice(id){
-        url = '{{route('member.category.edit', ':id')}}';
+        url = '{{route('admin.devices.edit', ':id')}}';
         url = url.replace(':id', id);
         $.ajaxModal('#deviceModal', url);
     }
@@ -93,7 +93,7 @@
                 closeOnCancel: true
             }, function (isConfirm) {
                 if (isConfirm) {
-                    var url = "{{ route('member.category.destroy',':id') }}";
+                    var url = "{{ route('admin.task-category.destroy',':id') }}";
                     url = url.replace(':id', id);
                     var token = "{{ csrf_token() }}";
                     $.easyAjax({
@@ -102,7 +102,7 @@
                         data: {'_token': token, '_method': 'DELETE'},
                         success: function (response) {
                             if (response.status == "success") {
-                                window.LaravelDataTables["project_category-table"].draw();
+                                window.LaravelDataTables["task_category-table"].draw();
                             }
                         }
                     });
