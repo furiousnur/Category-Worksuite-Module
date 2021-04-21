@@ -89,6 +89,9 @@ class MemberCategoryController extends MemberBaseController
      */
     public function destroy($id)
     {
+        if(!user()->cans('delete_category'))
+        return abort(403);
+
         $this->device = ProjectCategory::find($id);
         $this->device->delete();
         return Reply::success(__('category::app.message.deleted'));

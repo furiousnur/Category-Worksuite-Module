@@ -23,7 +23,10 @@ class MemberTaskCategoryDataTable extends BaseDataTable
             ->eloquent($query)
             ->addColumn('action', function ($row) {
 
-                $action = '<a href="' . route('member.task-category.edit', $row->id) . '" class="btn btn-info btn-circle"
+                /*$action = '<a href="' . route('member.task-category.edit', $row->id) . '" class="btn btn-info btn-circle"
+                      data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>';*/
+
+                $action ='<a onclick="editData('.$row->id.')" href="javascript:;" class="btn btn-info btn-circle"
                       data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
 
                 $action .='<a onclick="deleteData('.$row->id.')" href="javascript:;" class="btn btn-danger btn-circle m-l-5"

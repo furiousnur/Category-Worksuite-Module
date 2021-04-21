@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.member-app')
 
 @section('page-title')
     <div class="row bg-title">
@@ -37,7 +37,7 @@
     </div>
 @endsection
 
-<!-- Modal -->
+<!-- Task add Modal -->
 <div class="modal fade" id="addTaskCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -62,6 +62,31 @@
     </div>
 </div>
 
+<!-- Task edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@lang('category::app.taskCategory')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="{{route('admin.task-category.store')}}" class="form-group" method="post">
+                    @csrf
+                    <label for="exampleInputEmail1">@lang('category::app.taskName')</label>
+                    <input type="text" class="form-control" id="category_name" name="category_name" placeholder="@lang('category::app.taskName')">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @push('footer-script')
 <script src="{{ asset('plugins/bower_components/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
@@ -74,40 +99,41 @@
         $.ajaxModal('#deviceModal', $(this).attr('href'));
     });
 
-    function editDevice(id){
-        url = '{{route('admin.devices.edit', ':id')}}';
+    function editData(id){
+        url = '{{route('member.task-category.edit', ':id')}}';
         url = url.replace(':id', id);
-        $.ajaxModal('#deviceModal', url);
+
+        $.ajaxModal('#editModal', url);
     }
 
     function deleteData(id) {
-            swal({
-                title: "{{__('category::app.message.sure')}}",
-                text: "{{__('category::app.message.deviceDeleteWarn')}}",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "{{__('category::app.deleteConfirm')}}",
-                cancelButtonText: "{{__('category::app.deleteCancel')}}",
-                closeOnConfirm: true,
-                closeOnCancel: true
-            }, function (isConfirm) {
-                if (isConfirm) {
-                    var url = "{{ route('member.task-category.destroy',':id') }}";
-                    url = url.replace(':id', id);
-                    var token = "{{ csrf_token() }}";
-                    $.easyAjax({
-                        type: 'POST',
-                        url: url,
-                        data: {'_token': token, '_method': 'DELETE'},
-                        success: function (response) {
-                            if (response.status == "success") {
-                                window.LaravelDataTables["task_category-table"].draw();
-                            }
+        swal({
+            title: "{{__('category::app.message.sure')}}",
+            text: "{{__('category::app.message.deviceDeleteWarn')}}",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "{{__('category::app.deleteConfirm')}}",
+            cancelButtonText: "{{__('category::app.deleteCancel')}}",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function (isConfirm) {
+            if (isConfirm) {
+                var url = "{{ route('member.task-category.destroy',':id') }}";
+                url = url.replace(':id', id);
+                var token = "{{ csrf_token() }}";
+                $.easyAjax({
+                    type: 'POST',
+                    url: url,
+                    data: {'_token': token, '_method': 'DELETE'},
+                    success: function (response) {
+                        if (response.status == "success") {
+                            window.LaravelDataTables["task_category-table"].draw();
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
+        });
         }
 </script>
 @endpush

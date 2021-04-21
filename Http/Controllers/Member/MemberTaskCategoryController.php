@@ -8,6 +8,7 @@ use App\TaskCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Category\DataTables\MemberTaskCategoryDataTable;
+use function GuzzleHttp\Promise\task;
 
 class MemberTaskCategoryController extends AdminBaseController
 {
@@ -17,6 +18,9 @@ class MemberTaskCategoryController extends AdminBaseController
      */
     public function index(MemberTaskCategoryDataTable $dataTables)
     {
+        if(!user()->cans('view_task_category'))
+        return abort(403);
+
         $this->pageTitle = __('category::app.title');
         return $dataTables->render('category::member.task.index', $this->data);
     }
@@ -65,7 +69,12 @@ class MemberTaskCategoryController extends AdminBaseController
      */
     public function edit($id)
     {
-        return view('category::edit');
+
+        if(!user()->cans('edit_task_category'))
+        return abort(403);
+
+        $task = TaskCategory::find($id);
+        return response()->json($task);
     }
 
     /**
@@ -86,6 +95,9 @@ class MemberTaskCategoryController extends AdminBaseController
      */
     public function destroy($id)
     {
+        if(!user()->cans('delete_task_category'))
+        return abort(403);
+
         $this->device = TaskCategory::find($id);
         $this->device->delete();
         return Reply::success(__('category::app.message.deleted'));

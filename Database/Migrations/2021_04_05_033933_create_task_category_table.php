@@ -26,6 +26,6 @@ class CreateTaskCategoryTable extends Migration
      */
     public function down()
     {
-        Module::where('module_name', 'category')->first()->delete();
+        Module::where('module_name', 'task category')->first()->delete();
     }
 }
